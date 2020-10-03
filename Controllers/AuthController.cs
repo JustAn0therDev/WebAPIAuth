@@ -1,10 +1,11 @@
 using System;
 using WebAPIAuth.Models;
-using WebAPIAuth.Responses;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebAPIAuth.BusinessRules;
 using Microsoft.Extensions.Logging;
+using WebAPIAuth.Responses.UserSession;
+using WebAPIAuth.Responses.GenericResponses;
 
 namespace WebAPIAuth.Controllers {
     [ApiController]

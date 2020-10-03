@@ -1,6 +1,5 @@
 using System;
 using WebAPIAuth.Models;
-using WebAPIAuth.Responses;
 using WebAPIAuth.Interfaces;
 using System.Threading.Tasks;
 using WebAPIAuth.BusinessRules;
@@ -9,7 +8,7 @@ using WebAPIAuth.Requests.User;
 using WebAPIAuth.Responses.User;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
-
+using WebAPIAuth.Responses.GenericResponses;
 namespace WebAPIAuth.Controllers
 {
     [ApiController]

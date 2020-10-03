@@ -1,4 +1,4 @@
-namespace WebAPIAuth.Responses
+namespace WebAPIAuth.Responses.GenericResponses
 {
     public class ErrorResponse {
         public string ErrorMessage { get; set; }
