@@ -15,8 +15,8 @@ namespace WebAPIAuth.BusinessRules
         ///<summary>
         ///<description>Returns a complete list of all users</description>
         ///</summary>
-        public static async ValueTask<List<User>> GetAllUsersAsync() {
-            List<User> users = null;
+        public static async ValueTask<IReadOnlyList<User>> GetAllUsersAsync() {
+            IReadOnlyList<User> users = null;
             using (var connection = new DatabaseContext()) {
                 var set = connection.Set<User>();
                 users = await connection.User.ToListAsync();
@@ -30,7 +30,6 @@ namespace WebAPIAuth.BusinessRules
         ///</summary>
         public static async ValueTask<int> CreateUserAsync(User user) {
             int newlySavedId;
-
             user.Password = user.Password.GetEncryptedString();
 
             if (user == null)
@@ -51,7 +50,7 @@ namespace WebAPIAuth.BusinessRules
         }
 
         ///<summary>
-        ///<description>Returns a boolean value representing if the operation was successful</description>
+        ///<description>Returns a boolean value representing if the deleting operation was successful</description>
         ///<paramref name="ID"/>
         ///</summary>
         public static async ValueTask<bool> DeleteUserAsync(int ID) {

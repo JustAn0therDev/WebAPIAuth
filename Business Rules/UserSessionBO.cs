@@ -17,18 +17,14 @@ namespace WebAPIAuth.BusinessRules
                 .Where(userSession => userSession.ID == userSessionId)
                 .FirstOrDefaultAsync();
 
-                if (session == null || session.EndDate != null)
-                    throw new UnauthorizedAccessException("Session not found");
-                
-                if (session.StartDate.AddMinutes(30) <= DateTime.Now) {
-                    session.EndDate = DateTime.Now;
-                    await connection.SaveChangesAsync();
-                    throw new UnauthorizedAccessException("Invalid session");
-                }
+                if (session.StartDate.AddMinutes(30) <= DateTime.Now)
+                    if (await EndSession(userSessionId)) {
+                        throw new UnauthorizedAccessException("Invalid session");
+                    }
             }
         }
 
-        public async ValueTask<int> StartSession(User user) {
+        public async static ValueTask<int> StartSession(User user) {
             int userSessionID = 0;
             using (var connection = new DatabaseContext()) {
                 user = await connection
@@ -48,8 +44,24 @@ namespace WebAPIAuth.BusinessRules
                  else 
                     throw new Exception("Something went wrong while creating a session. Please try again.");
             }
-
             return userSessionID;
+        }
+
+        public async static ValueTask<bool> EndSession(int userSessionId) {
+            bool endedSession = false;
+            using (var connection = new DatabaseContext()) {
+                UserSession session = await connection.UserSession
+                .Where(userSession => userSession.ID == userSessionId)
+                .FirstOrDefaultAsync();
+
+                if (session == null || session.EndDate != null)
+                    throw new UnauthorizedAccessException("Session not found");
+                
+                session.EndDate = DateTime.Now;
+                await connection.SaveChangesAsync();
+                endedSession = true;
+            }
+            return endedSession;
         }
     }
 }

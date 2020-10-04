@@ -7,7 +7,7 @@ namespace WebAPIAuth.Contexts {
         public DbSet<UserSession> UserSession { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseSqlite("Data Source=database.db");
+            optionsBuilder.UseSqlite(@"Data Source=database.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {

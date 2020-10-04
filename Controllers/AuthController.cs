@@ -23,7 +23,7 @@ namespace WebAPIAuth.Controllers {
         public async ValueTask<IActionResult> PostAsync(User user) {
             AuthenticateUserResponse resp = new AuthenticateUserResponse();
             try {
-                resp.UserSessionID = await _userSessionBO.StartSession(user);
+                resp.UserSessionID = await UserSessionBO.StartSession(user);
             }
             catch (ArgumentNullException aex) {
                 _logger.LogInformation(aex.Message);

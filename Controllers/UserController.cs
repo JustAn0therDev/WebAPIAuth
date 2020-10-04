@@ -25,9 +25,9 @@ namespace WebAPIAuth.Controllers
 
         [HttpGet]
         public async ValueTask<IActionResult> GetAsync([FromHeader] int userSessionId) {
-            List<User> users = null;
+            IReadOnlyList<User> users;
             try {
-                await NotifyObserver(userSessionId);
+                await NotifyObserverAsync(userSessionId);
                 users = await Task.FromResult(await UserBO.GetAllUsersAsync());
             }
             catch (UnauthorizedAccessException uanex) {
@@ -64,7 +64,7 @@ namespace WebAPIAuth.Controllers
         public async ValueTask<IActionResult> DeleteAsync(DeleteUser deleteUser, [FromHeader] int userSessionId) {
             DeleteUserResponse resp = new DeleteUserResponse();
             try {
-                await NotifyObserver(userSessionId);
+                await NotifyObserverAsync(userSessionId);
                 resp.Deleted = await UserBO.DeleteUserAsync(deleteUser.ID);
             }
             catch (InvalidOperationException inex) {
@@ -79,6 +79,6 @@ namespace WebAPIAuth.Controllers
             return Ok(resp);
         }
 
-        public async ValueTask NotifyObserver(int userSessionId) => await _userSessionBO.OnNotified(userSessionId);
+        public async ValueTask NotifyObserverAsync(int userSessionId) => await _userSessionBO.OnNotified(userSessionId);
     }
 }
