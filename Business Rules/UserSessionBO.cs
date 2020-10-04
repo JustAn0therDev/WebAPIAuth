@@ -17,6 +17,9 @@ namespace WebAPIAuth.BusinessRules
                 .Where(userSession => userSession.ID == userSessionId)
                 .FirstOrDefaultAsync();
 
+                if (session == null || session.EndDate != null)
+                    throw new UnauthorizedAccessException("Session not found");
+
                 if (session.StartDate.AddMinutes(30) <= DateTime.Now)
                     if (await EndSession(userSessionId)) {
                         throw new UnauthorizedAccessException("Invalid session");
@@ -24,7 +27,7 @@ namespace WebAPIAuth.BusinessRules
             }
         }
 
-        public async static ValueTask<int> StartSession(User user) {
+        public async ValueTask<int> StartSession(User user) {
             int userSessionID = 0;
             using (var connection = new DatabaseContext()) {
                 user = await connection
@@ -47,7 +50,7 @@ namespace WebAPIAuth.BusinessRules
             return userSessionID;
         }
 
-        public async static ValueTask<bool> EndSession(int userSessionId) {
+        public async ValueTask<bool> EndSession(int userSessionId) {
             bool endedSession = false;
             using (var connection = new DatabaseContext()) {
                 UserSession session = await connection.UserSession

@@ -23,14 +23,12 @@ namespace WebAPIAuth.Controllers {
         public async ValueTask<IActionResult> PostAsync(User user) {
             AuthenticateUserResponse resp = new AuthenticateUserResponse();
             try {
-                resp.UserSessionID = await UserSessionBO.StartSession(user);
+                resp.UserSessionID = await _userSessionBO.StartSession(user);
             }
             catch (ArgumentNullException aex) {
-                _logger.LogInformation(aex.Message);
                 return BadRequest(new ErrorResponse(aex.Message));
             }
             catch (InvalidOperationException inex) {
-                _logger.LogInformation(inex.Message);
                 return BadRequest(new ErrorResponse(inex.Message));
             }
             catch (Exception ex) {
@@ -39,6 +37,25 @@ namespace WebAPIAuth.Controllers {
             }
 
             return Ok(resp);
+        }
+
+        [HttpPost]
+        [Route("logout")]
+        public async ValueTask<IActionResult> PostEndSessionAsync([FromHeader] int userSessionID)
+        {
+            LogoutUserResponse response = new LogoutUserResponse();
+            try {
+                response.LoggedOut = await _userSessionBO.EndSession(userSessionID);
+            }
+            catch (UnauthorizedAccessException inex) {
+                return BadRequest(new ErrorResponse(inex.Message));
+            }
+            catch (Exception ex) {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, new ErrorResponse(ex.Message));
+            }
+
+            return Ok(response);
         }
     }
 }

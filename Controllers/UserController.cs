@@ -31,7 +31,6 @@ namespace WebAPIAuth.Controllers
                 users = await Task.FromResult(await UserBO.GetAllUsersAsync());
             }
             catch (UnauthorizedAccessException uanex) {
-                _logger.LogInformation(uanex.Message);
                 return BadRequest(new ErrorResponse(uanex.Message));
             }
             catch (Exception ex) {
@@ -49,7 +48,6 @@ namespace WebAPIAuth.Controllers
                 resp.UserID = await UserBO.CreateUserAsync(user);
             }
             catch (InvalidOperationException inex) {
-                _logger.LogInformation(inex.Message);
                 return BadRequest(new ErrorResponse(inex.Message));
             }
             catch (Exception ex) {
@@ -68,7 +66,6 @@ namespace WebAPIAuth.Controllers
                 resp.Deleted = await UserBO.DeleteUserAsync(deleteUser.ID);
             }
             catch (InvalidOperationException inex) {
-                _logger.LogInformation(inex.Message);
                 return BadRequest(new ErrorResponse(inex.Message));
             }
             catch (Exception ex) {
