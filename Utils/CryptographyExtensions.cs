@@ -5,8 +5,12 @@ using System.Text;
 namespace WebAPIAuth.Utils
 {
     public static class CrypthographyExtensions {
-        public static string GetEncryptedString(this string dataToEncrypt) {
-            byte[] dataToEncryptInByteArray = Encoding.ASCII.GetBytes(dataToEncrypt);
+        ///<summary>
+        ///<description>Returns the input string's encrypted version in SHA1.</description>
+        ///<paramref name="stringToEncrypt"/>
+        ///</summary>
+        public static string GetEncryptedString(this string stringToEncrypt) {
+            byte[] dataToEncryptInByteArray = Encoding.ASCII.GetBytes(stringToEncrypt);
             SHA1CryptoServiceProvider sha1CryptoServiceProvider = new SHA1CryptoServiceProvider();
 
             byte[] byteArrayData = sha1CryptoServiceProvider.ComputeHash(dataToEncryptInByteArray);

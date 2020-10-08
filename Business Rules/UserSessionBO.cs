@@ -11,6 +11,9 @@ namespace WebAPIAuth.BusinessRules
 {
     public class UserSessionBO : IRequestObserver {
 
+        ///<summary>
+        ///<description>Method that should be called if the caller has an IRequestObservationSubject interface.</description>
+        ///</summary>
         public async ValueTask OnNotified(int userSessionId) {
             using (var connection = new DatabaseContext()) {
                 UserSession session = await connection.UserSession
@@ -27,6 +30,9 @@ namespace WebAPIAuth.BusinessRules
             }
         }
 
+        ///<summary>
+        ///<description>Starts user session by checking name and password.</description>
+        ///</summary>
         public async ValueTask<int> StartSession(User user) {
             int userSessionID = 0;
             using (var connection = new DatabaseContext()) {
@@ -50,6 +56,10 @@ namespace WebAPIAuth.BusinessRules
             return userSessionID;
         }
 
+        ///<summary>
+        ///<description>Ends the session found via the provided</description>
+        ///<paramref name="userSessionId"/>
+        ///</summary>
         public async ValueTask<bool> EndSession(int userSessionId) {
             bool endedSession = false;
             using (var connection = new DatabaseContext()) {

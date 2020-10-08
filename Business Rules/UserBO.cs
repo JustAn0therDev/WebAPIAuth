@@ -25,7 +25,7 @@ namespace WebAPIAuth.BusinessRules
         }
 
         ///<summary>
-        ///<description>Returns the ID of the newly created user, if any</description>
+        ///<description>Returns the ID of the newly created</description>
         ///<paramref name="user"/>
         ///</summary>
         public static async ValueTask<int> CreateUserAsync(User user) {
@@ -50,7 +50,7 @@ namespace WebAPIAuth.BusinessRules
         }
 
         ///<summary>
-        ///<description>Returns a boolean value representing if the deleting operation was successful</description>
+        ///<description>Returns a boolean value representing if the deleting operation was successful. Receives an</description>
         ///<paramref name="ID"/>
         ///</summary>
         public static async ValueTask<bool> DeleteUserAsync(int ID) {

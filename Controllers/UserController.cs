@@ -9,6 +9,7 @@ using WebAPIAuth.Responses.User;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using WebAPIAuth.Responses.GenericResponses;
+
 namespace WebAPIAuth.Controllers
 {
     [ApiController]
