@@ -35,7 +35,7 @@ namespace WebAPIAuth.BusinessRules
             if (user == null)
                 throw new ArgumentNullException("A user must be provided.");
             else if (user.ID != 0)
-                throw new InvalidOperationException("You cannot save a new user providing an ID.");
+                throw new InvalidOperationException("A new user must not have an ID.");
 
             using (var connection = new DatabaseContext()) {
                 
@@ -57,8 +57,6 @@ namespace WebAPIAuth.BusinessRules
             bool deleted = false;
 
             using (var connection = new DatabaseContext()) {
-                var entity = connection.Set<User>();
-
                 List<User> users = await connection.User.Where(w => w.ID == ID).ToListAsync();
 
                 if (users == null || users.Count == 0)

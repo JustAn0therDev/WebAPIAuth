@@ -22,8 +22,9 @@ namespace WebAPIAuth.Controllers {
         [HttpPost]
         public async ValueTask<IActionResult> PostAsync(User user) {
             AuthenticateUserResponse resp = new AuthenticateUserResponse();
+
             try {
-                resp.UserSessionID = await _userSessionBO.StartSession(user);
+                resp.UserSessionID = await _userSessionBO.StartSessionAsync(user);
             }
             catch (ArgumentNullException aex) {
                 return BadRequest(new ErrorResponse(aex.Message));
@@ -44,8 +45,9 @@ namespace WebAPIAuth.Controllers {
         public async ValueTask<IActionResult> PostEndSessionAsync([FromHeader] int userSessionID)
         {
             LogoutUserResponse response = new LogoutUserResponse();
+
             try {
-                response.LoggedOut = await _userSessionBO.EndSession(userSessionID);
+                response.LoggedOut = await UserSessionBO.EndSessionAsync(userSessionID);
             }
             catch (UnauthorizedAccessException inex) {
                 return BadRequest(new ErrorResponse(inex.Message));

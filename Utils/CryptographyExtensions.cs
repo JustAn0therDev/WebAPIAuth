@@ -1,6 +1,6 @@
 using System;
-using System.Security.Cryptography;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace WebAPIAuth.Utils
 {
@@ -11,7 +11,7 @@ namespace WebAPIAuth.Utils
         ///</summary>
         public static string GetEncryptedString(this string stringToEncrypt) {
             byte[] dataToEncryptInByteArray = Encoding.Unicode.GetBytes(stringToEncrypt);
-            SHA1CryptoServiceProvider sha1CryptoServiceProvider = new SHA1CryptoServiceProvider();
+            var sha1CryptoServiceProvider = new SHA1CryptoServiceProvider();
 
             byte[] byteArrayData = sha1CryptoServiceProvider.ComputeHash(dataToEncryptInByteArray);
 

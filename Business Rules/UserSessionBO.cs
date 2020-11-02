@@ -14,7 +14,7 @@ namespace WebAPIAuth.BusinessRules
         ///<summary>
         ///<description>Method that should be called if the caller has an IRequestObservationSubject interface.</description>
         ///</summary>
-        public async ValueTask OnNotified(int userSessionId) {
+        public async ValueTask OnNotifiedAsync(int userSessionId) {
             using (var connection = new DatabaseContext()) {
                 UserSession session = await connection.UserSession
                 .Where(userSession => userSession.ID == userSessionId)
@@ -24,7 +24,7 @@ namespace WebAPIAuth.BusinessRules
                     throw new UnauthorizedAccessException("Session not found");
 
                 if (session.StartDate.AddMinutes(30) <= DateTime.Now)
-                    if (await EndSession(userSessionId)) {
+                    if (await EndSessionAsync(userSessionId)) {
                         throw new UnauthorizedAccessException("Invalid session");
                     }
             }
@@ -33,7 +33,7 @@ namespace WebAPIAuth.BusinessRules
         ///<summary>
         ///<description>Starts user session by checking name and password.</description>
         ///</summary>
-        public async ValueTask<int> StartSession(User user) {
+        public async ValueTask<int> StartSessionAsync(User user) {
             int userSessionID = 0;
             using (var connection = new DatabaseContext()) {
                 user = await connection
@@ -60,7 +60,7 @@ namespace WebAPIAuth.BusinessRules
         ///<description>Ends the session found via the provided</description>
         ///<paramref name="userSessionId"/>
         ///</summary>
-        public async ValueTask<bool> EndSession(int userSessionId) {
+        public static async ValueTask<bool> EndSessionAsync(int userSessionId) {
             bool endedSession = false;
             using (var connection = new DatabaseContext()) {
                 UserSession session = await connection.UserSession

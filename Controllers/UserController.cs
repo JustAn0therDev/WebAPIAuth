@@ -77,6 +77,6 @@ namespace WebAPIAuth.Controllers
             return Ok(resp);
         }
 
-        public async ValueTask NotifyObserverAsync(int userSessionId) => await _userSessionBO.OnNotified(userSessionId);
+        public async ValueTask NotifyObserverAsync(int userSessionId) => await _userSessionBO.OnNotifiedAsync(userSessionId);
     }
 }
